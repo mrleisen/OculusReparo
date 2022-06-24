@@ -2,15 +2,28 @@
 
 My Harry Potter Mobile Wiki
 
-## Getting Started
+-This project it just for practicing purposes
 
-This project is a starting point for a Flutter application.
+-This project implements:
+    -Clean architecture
+    -MVP presentation pattern
+    -Dependency injection
 
-A few resources to get you started if this is your first Flutter project:
+-List of libraries that this app is currently using:
+    -http: ^0.13.4
+    -get_it: ^7.2.0
+    -tuple: ^2.0.0
+    -google_fonts: ^3.0.1
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+In the first version of this project you can:
+    -View information about character in a bottom sheet modal
+    -View the picture of some characters
+    -Search character by full name
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+In the second version of this project you will be able to:
+    -Use the app without an internet connection
+    -If a character does not have a picture, you can add one
+
+In the first version of this project you will be able to:
+    -Create your own character
+    -Add more information to the existing characters
