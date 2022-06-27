@@ -15,7 +15,7 @@ class CharacterUseCasesImpl implements CharacterUseCases {
       await _characterRepository.getCharacters();
 
   @override
-  Future<Tuple3<bool, Character?, String>> getCharacter(String name) async =>
-      await _characterRepository.getCharacter(name);
+  Future<bool> updateCharacter(Character character) async =>
+      await _characterRepository.updateCharacter(character);
 
 }

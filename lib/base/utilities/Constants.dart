@@ -1,0 +1,9 @@
+
+class Constants {
+
+  static const LOCAL_DATABASE_VERSION = 2;
+  static const ENTITY_BOOLEAN_VALUE_FOR_TRUE = 1;
+  static const ENTITY_BOOLEAN_VALUE_FOR_FALSE = 0;
+  static const THERE_IS_NO_CHARACTERS_IN_LOCAL_DATABASE = "THERE_IS_NO_CHARACTERS_IN_LOCAL_DATABASE";
+
+}

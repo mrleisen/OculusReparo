@@ -1,6 +1,12 @@
 
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:oculus_reparo/base/utilities/MyAssets.dart';
+import 'package:oculus_reparo/base/widgets/CharacterInfoBottomSheet.dart';
 import 'package:oculus_reparo/domain/models/characters/Character.dart';
 
 // this widget draws an avatar, the Character name and the amount of repositories
@@ -9,11 +15,13 @@ class CharacterItem extends StatelessWidget {
   final Character character;
   final double width;
   final double height;
+  final CharacterItemListener listener;
 
   const CharacterItem({
     required this.character,
     required this.width,
     required this.height,
+    required this.listener,
     Key? key}) : super(key: key);
 
   @override
@@ -23,7 +31,7 @@ class CharacterItem extends StatelessWidget {
       children: [
 
         // this is the characters image
-        Image(width: width, height: height, fit: BoxFit.cover, image: _getImage()),
+        _getCharacterImage(),
 
         // this is the characters name placed at the bottom
         Positioned(
@@ -50,22 +58,10 @@ class CharacterItem extends StatelessWidget {
     )
   );
 
-  ImageProvider _getImage() {
-    if(character.image != null){
-      if(character.image!.isNotEmpty){
-        return NetworkImage(character.image!);
-      }
-    }
-    return const AssetImage('assets/images/background_1.png');
-  }
-
   // show a modal sheet with more info about the character
   _tapOnCharacter(Character character, BuildContext context) {
 
     const _radiusForBottomSheet = 20.0;
-    const _spaceBetweenBottomSheetVertical = 20.0;
-    const _spaceBetweenCharacterPropertiesAndValues = 8.0;
-    const _textOfCharactersProperties = 18.0;
 
     showModalBottomSheet(
         backgroundColor: Colors.black,
@@ -73,165 +69,54 @@ class CharacterItem extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(_radiusForBottomSheet))
         ),
-        builder: (context) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-
-            // this is a space space
-            const SizedBox(height: _spaceBetweenBottomSheetVertical),
-
-            // this is the characters name
-            Text(
-                "${character.name}",
-                style: GoogleFonts.tillana(color: Colors.white, fontSize: 32),
-                textAlign: TextAlign.center),
-
-            // divider
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
-                child: const Divider(height: 1,color: Colors.white)
-            ),
-
-            // this is the characters house
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "House:",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      "${character.house}",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters age and year of birth
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "Year of birth:",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      "${character.yearOfBirth}",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters species
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "Species:",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      "${character.species}",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters it's a wizard
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "Is a wizard?",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      _isThisTrue(character.wizard),
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters it's alvie
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "It's alive?",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      _isThisTrue(character.alive),
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters  it's a hogwarts student
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "It's a Hogwarts student?",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      _isThisTrue(character.hogwartsStudent),
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters it's a hogwarts staff
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "It's a Hogwarts staff?",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      _isThisTrue(character.hogwartsStaff),
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            // this is the characters ancentry
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "Ancestry:",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center),
-                  const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
-                  Text(
-                      "${character.ancestry}",
-                      style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
-                      textAlign: TextAlign.center)
-                ]
-            ),
-
-            const SizedBox(height: _spaceBetweenBottomSheetVertical)
-
-          ],
-        )
+        builder: (context) => CharacterInfoBottomSheet(character: character)
     );
   }
 
-  String _isThisTrue(bool? value) {
-    if(value != null){
-      return (value) ? "Yes" : "No";
+  Widget _getCharacterImage() {
+    if(character.imageBase64 != null){
+      if(character.imageBase64!.isNotEmpty){
+        return Image.memory(base64Decode(character.imageBase64!), width: width, height: height, fit: BoxFit.cover);;
+      }
     }
-    return "Unknown";
+    if(character.image != null){
+      if(character.image!.isNotEmpty){
+        return CachedNetworkImage(
+          width: width, height: height, fit: BoxFit.cover,
+          placeholder: (context, url) => Image(image: MyAssets.getThisAssetImage(MyAssets.BLACK_BACKGROUND_WITH_WHITE_LOGO)),
+          errorWidget: (context, url, error) => Image(image: MyAssets.getThisAssetImage(MyAssets.BLACK_BACKGROUND_WITH_WHITE_LOGO)),
+          imageUrl: character.getImageUrl(),
+        );
+      }
+    }
+    return Container(
+      width: width, height: height,
+      child: Stack(
+        children: [
+          Image(
+              width: width, height: height, fit: BoxFit.cover,
+              image: MyAssets.getThisAssetImage(MyAssets.BLACK_BACKGROUND_WITH_WHITE_LOGO)
+          ),
+          Center(child: ElevatedButton(onPressed: (){ _allowUserToAddImage(); }, child: Text("add image")))
+        ],
+      ),
+    );
   }
 
+  _allowUserToAddImage() async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if(image != null){
+      final imageBytes = await image.readAsBytes();
+      final imageBase64 = base64Encode(imageBytes);
+      character.imageBase64 = imageBase64;
+      listener.updateCharacter(character);
+    }
+  }
+
+}
+
+abstract class CharacterItemListener{
+  updateCharacter(Character character);
 }

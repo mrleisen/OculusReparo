@@ -8,10 +8,13 @@ abstract class HomeScreenContractView {
   hideLoading();
   showError(String errorMessage);
   setCharacters(List<Character> characters);
+  notifyImageSavedSuccessfully();
+  notifyImageNotSaved();
 }
 
 abstract class HomeScreenContractPresenter {
   attachView(HomeScreenContractView view);
   detachView();
   getCharacters();
+  updateCharacter(Character character);
 }
