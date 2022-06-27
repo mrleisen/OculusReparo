@@ -17,7 +17,7 @@ class HomeScreenView extends StatefulWidget {
   State<HomeScreenView> createState() => _HomeScreenViewState();
 }
 
-class _HomeScreenViewState extends State<HomeScreenView> implements HomeScreenContractView {
+class _HomeScreenViewState extends State<HomeScreenView> implements HomeScreenContractView, CharacterItemListener {
 
   bool _isLoading = false;
   bool _showErrorFromApi = false;
@@ -69,7 +69,8 @@ class _HomeScreenViewState extends State<HomeScreenView> implements HomeScreenCo
                                 CharacterItem(
                                     character: _filteredCharacters[index],
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height
+                                    height: MediaQuery.of(context).size.height,
+                                    listener: this
                                 )
                         )
                     )
@@ -188,6 +189,29 @@ class _HomeScreenViewState extends State<HomeScreenView> implements HomeScreenCo
     // Refresh the UI
     _filteredCharacters = _result;
     setState(() { });
+  }
+
+  @override
+  updateCharacter(Character character) async {
+    await _presenter.updateCharacter(character);
+  }
+
+  @override
+  notifyImageSavedSuccessfully() {
+    print('Image saved successfully');
+    const snackBar = SnackBar(
+      content: Text('Image saved successfully'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  notifyImageNotSaved() {
+    print('Image not saved');
+    const snackBar = SnackBar(
+      content: Text('Image not saved'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 }

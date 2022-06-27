@@ -1,5 +1,6 @@
 
 
+import 'package:oculus_reparo/domain/models/characters/Character.dart';
 import 'package:oculus_reparo/domain/usecases/CharacterUseCases.dart';
 import 'package:oculus_reparo/presentation/home/HomeScreenContract.dart';
 
@@ -42,5 +43,18 @@ class HomeScreenPresenter implements HomeScreenContractPresenter {
 
   // private functions
   bool _isViewAttached() => _view != null;
+
+  @override
+  updateCharacter(Character character) async {
+    final result = await _characterUseCases.updateCharacter(character);
+    if(_isViewAttached()){
+      if(result){
+        _view?.notifyImageSavedSuccessfully();
+      }else{
+        _view?.notifyImageNotSaved();
+      }
+    }
+
+  }
 
 }
