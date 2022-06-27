@@ -8,5 +8,6 @@ abstract class CharacterApiDataSource {
 
 abstract class CharacterLocalDataSource {
   Future<Tuple3<bool, List<Character>?, String>> getCharacters();
-  Future<Tuple3<bool, Character?, String>> getCharacter(String name);
+  saveCharacters(List<Character> list);
+  Future<bool> updateCharacter(Character character);
 }
