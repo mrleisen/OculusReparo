@@ -174,7 +174,7 @@ class CharacterInfoBottomSheet extends StatelessWidget {
                   textAlign: TextAlign.center),
               const SizedBox(width: _spaceBetweenCharacterPropertiesAndValues),
               Text(
-                  "$character.ancestry",
+                  "${character.ancestry}",
                   style: GoogleFonts.tillana(color: Colors.white, fontSize: _textOfCharactersProperties),
                   textAlign: TextAlign.center)
             ]
