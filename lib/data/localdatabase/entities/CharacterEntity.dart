@@ -6,8 +6,7 @@ import 'package:oculus_reparo/domain/models/characters/Character.dart';
 @entity
 class CharacterEntity {
 
-  @PrimaryKey(autoGenerate: true)
-  int? id;
+  @primaryKey
   String? name;
   String? image;
   String? house;
@@ -20,6 +19,7 @@ class CharacterEntity {
   int? hogwartsStaff;
   String? actor;
   int? alive;
+  String? imageBase64;
 
   CharacterEntity(
     this.name,
@@ -34,6 +34,7 @@ class CharacterEntity {
     this.hogwartsStaff,
     this.actor,
     this.alive,
+    this.imageBase64
   );
 
   static CharacterEntity fromObjToEntity(Character character) =>
@@ -49,7 +50,8 @@ class CharacterEntity {
           _getIntForBooleanValue(character.hogwartsStudent),
           _getIntForBooleanValue(character.hogwartsStaff),
           character.actor ?? "",
-          _getIntForBooleanValue(character.alive)
+          _getIntForBooleanValue(character.alive),
+          character.imageBase64 ?? ""
       );
 
   static int _getIntForBooleanValue(bool? value) {
@@ -72,7 +74,8 @@ class CharacterEntity {
           hogwartsStaff: hogwartsStaff == Constants.ENTITY_BOOLEAN_VALUE_FOR_TRUE,
           actor: actor,
           alive: alive == Constants.ENTITY_BOOLEAN_VALUE_FOR_TRUE,
-          image: image
+          image: image,
+          imageBase64: imageBase64
       );
 
 }
