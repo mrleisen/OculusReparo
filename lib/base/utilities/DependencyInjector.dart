@@ -2,8 +2,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:oculus_reparo/data/api/ApiClient.dart';
 import 'package:oculus_reparo/data/implementations/datasourcesimpl/CharacterApiDataSourceImpl.dart';
+import 'package:oculus_reparo/data/implementations/datasourcesimpl/CharacterLocalDataSourceImpl.dart';
 import 'package:oculus_reparo/data/implementations/repositoriesimpl/CharacterRepositoryImpl.dart';
 import 'package:oculus_reparo/data/implementations/usecasesimpl/CharacterUseCasesImpl.dart';
+import 'package:oculus_reparo/data/localdatabase/LocalDatabaseBuilder.dart';
 import 'package:oculus_reparo/domain/datasources/CharacterDataSource.dart';
 import 'package:oculus_reparo/domain/repositories/CharacterRepository.dart';
 import 'package:oculus_reparo/domain/usecases/CharacterUseCases.dart';
@@ -15,6 +17,7 @@ void init(){
 
   //lazy
   serviceLocator.registerLazySingleton<ApiClient>(() => ApiClient());
+  serviceLocator.registerLazySingleton<LocalDatabaseBuilder>(() => LocalDatabaseBuilder());
 
   //presenter
   serviceLocator.registerFactory(() => HomeScreenPresenter(serviceLocator()));
@@ -23,9 +26,10 @@ void init(){
   serviceLocator.registerLazySingleton<CharacterUseCases>(() => CharacterUseCasesImpl(serviceLocator()));
 
   // repositories
-  serviceLocator.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl(serviceLocator(),serviceLocator()));
 
   // datasources
   serviceLocator.registerLazySingleton<CharacterApiDataSource>(() => CharacterApiDataSourceImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<CharacterLocalDataSource>(() => CharacterLocalDataSourceImpl(serviceLocator()));
 
 }
