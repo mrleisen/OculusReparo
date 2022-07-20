@@ -24,7 +24,7 @@ My Harry Potter Mobile Wiki
 --> View the picture of some characters
 --> Search character by full name
 
--In the second version of this project you will be able to:
+-In the second version of this project you can:
 --> Use the app without an internet connection
 --> If a character does not have a picture, you can add one
 --> Houses with images

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oculus_reparo/base/utilities/MyAssets.dart';
-import 'package:oculus_reparo/base/widgets/CharacterInfoBottomSheet.dart';
 import 'package:oculus_reparo/domain/models/characters/Character.dart';
+import 'package:oculus_reparo/presentation/widgets/CharacterInfoBottomSheet.dart';
 
 // this widget draws an avatar, the Character name and the amount of repositories
 class CharacterItem extends StatelessWidget {

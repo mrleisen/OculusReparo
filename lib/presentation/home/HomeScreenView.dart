@@ -1,13 +1,12 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oculus_reparo/base/utilities/DependencyInjector.dart';
 import 'package:oculus_reparo/base/utilities/VisualConstants.dart';
-import 'package:oculus_reparo/base/widgets/CharacterItem.dart';
 import 'package:oculus_reparo/domain/models/characters/Character.dart';
 import 'package:oculus_reparo/presentation/home/HomeScreenContract.dart';
 import 'package:oculus_reparo/presentation/home/HomeScreenPresenter.dart';
+import 'package:oculus_reparo/presentation/widgets/CharacterItem.dart';
 
 class HomeScreenView extends StatefulWidget {
 
